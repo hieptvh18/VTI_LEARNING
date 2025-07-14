@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-btvn
+  namespace: default
+spec:
+  schedule: "*/1 * * * *"   # Mỗi 1 phút
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        spec:
+          containers:
+            - name: hello
+              image: "ubuntu:14.04"
+              env:
+                - name: MESSAGE
+                  value: "hello world"
+              command: ["/bin/sh", "-c"]
+              args: ["/bin/echo \"${MESSAGE}\""]
+          restartPolicy: Never
